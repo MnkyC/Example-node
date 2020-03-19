@@ -1,3 +1,11 @@
+# 遍历
+## 对象
+Object.keys(obj).forEach(o => {});
+## 数组
+arr.forEach(element => {});
+arr.forEach((element, index) => {})
+arr.forEach((element, index, arr) => {})
+## 字符串
 # 转换
 自动转换具有不确定性，不易排错，建议预期为布尔，数值，字符串时，全部使用显示转换（Boolean(), Number(), String()）
 # 运算
