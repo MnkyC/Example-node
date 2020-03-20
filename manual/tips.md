@@ -1,10 +1,49 @@
 # 遍历
 ## 对象
 Object.keys(obj).forEach(o => {});
+Object.keys(obj).forEach((value, key, o) => {});
 ## 数组
-arr.forEach(element => {});
-arr.forEach((element, index) => {})
-arr.forEach((element, index, arr) => {})
+forEach，缺点: 不能中断
+
+	arr.forEach(element => {});
+	arr.forEach((element, index) => {})
+	arr.forEach((element, index, arr) => {})
+# 拷贝
+## 数组
+深拷贝，返回新数组，不影响原数组
+
+	arr.concat();
+	arr.slice();
+	arr1 = [...arr]; // 利用扩展运算符
+# 合并
+## 数组
+返回新数组，当元素是原始类型时不影响原数组，若是复合类型(如对象)，就会影响原数组
+
+	arr.concat(arr1, arr2);
+	[...arr, ...arr1, ...arr2]; // 利用扩展运算符
+# 获取
+## 数组
+最后一位，arr.slice(-1);
+# 去重
+## 数组
+1. Array.from(new Set(arr)); // ES6
+2. for循环嵌套，双指针思想，NaN和
+
+		const length = arr.length;
+		for (let i = 0; i < length; i++) {
+			for (let j = i + 1; j < length; j++) {
+				if (arr[i] === arr[j]) {
+					arr.splice(j, 1);
+					j--;
+				}
+			}
+		}
+3. indexOf，建一个空数组，遍历判断是否存在，不存在就push
+4. sort，先排序，再建一个数组，遍历前后两个数值，不同就push
+# 注意点
+## 数组
+1. length属性，不过滤空位，用delete命令删除了元素后length的值还是不变，并且还可以读取元素(undefined)
+2. 数组中元素是空位，和元素是undefined是不同的。空位，用forEach, for...in, Object.keys进行遍历，都会被跳过；undefined，不会跳过
 ## 字符串
 # 转换
 自动转换具有不确定性，不易排错，建议预期为布尔，数值，字符串时，全部使用显示转换（Boolean(), Number(), String()）
@@ -49,3 +88,4 @@ arr.forEach((element, index, arr) => {})
 
 # 技巧
 1. 自定义数组排序方法，用a - b的形式，而不是a > b这种布尔形式
+2. 查看负数在计算机内部的存储形式，最快的方式，-1 >>> 0
