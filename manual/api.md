@@ -1,16 +1,23 @@
+# 数值
+* Number.isInteger(), ES6, 判断是否为整数，精度要求高的不建议使用，因为超过精度后就会误判
+
+		JavaScript中整数和浮点数都是一样的存储方式，所以10和10.0是同一个值，都是整数
 # 字符串
-* length属性获取长度
-* indexOf(searchvalue, fromindex), 确定一个字符串在另一个字符串中第一次出现的位置，返回匹配开始的位置，不匹配返回-1
+* str.length属性获取长度
+* str.indexOf(searchvalue, fromindex), 确定一个字符串在另一个字符串中第一次出现的位置，返回匹配开始的位置，不匹配返回-1
 
 		fromindex可选，表示从该位置开始向后匹配
 		'JavaScript'.indexOf('a'); // 1
 		'JavaScript'.indexOf('a', 2); // 3
-* lastIndexOf(searchvalue, fromindex), 和indexOf类似，不过是从尾部开始匹配
+* strs.includes(str, startindex), ES6，确定是否在strs中找到str，startindex可选，表示开始搜索的位置，从startindex到尾部
+* strs.startsWith(str, startindex), ES6，str是否在strs头部，startindex可选，表示开始搜索的位置，从startindex到尾部
+* strs.endsWith(str, n), ES6，str是否在strs尾部，n可选，针对前n个字符
+* str.lastIndexOf(searchvalue, fromindex), 和indexOf类似，不过是从尾部开始匹配
 
 		fromindex可选，表示从该位置开始向前匹配
 		'JavaScript'.lastIndexOf('a'); // 3
 		'JavaScript'. lastIndexOf('a', 2); // 1
-* slice(startindex, endindex), 截取并返回子字符串，不改变原字符串，区间[startindex, endindex)
+* str.slice(startindex, endindex), 截取并返回子字符串，不改变原字符串，区间[startindex, endindex)
 
 		endindex没有的话，默认是到字符串尾部
 		'JavaScript'.slice(0, 4); // "Java"
@@ -20,7 +27,7 @@
 		'JavaScript'.slice(0, -6); // "Java"
 		'JavaScript'.slice(-2, -1); // "p"
 		startindex > endindex时，返回空字符串
-* substring(startindex, endindex), 截取并返回子字符串，不改变原字符串，区间[startindex, endindex)
+* str.substring(startindex, endindex), 截取并返回子字符串，不改变原字符串，区间[startindex, endindex)
 
 		endindex没有的话，默认是到字符串尾部
 		'JavaScript'.substring(0, 4); // "Java"
@@ -34,7 +41,7 @@
 			
 **不建议使用substring，优先使用slice**
 
-* substr(startindex, size), 截取并返回子字符串，不改变原字符串，size是子字符串的长度
+* str.substr(startindex, size), 截取并返回子字符串，不改变原字符串，size是子字符串的长度
 
 		size没有的话，默认是到字符串尾部
 		'JavaScript'.substr(4, 6); // "Script"
@@ -42,7 +49,7 @@
 		第一个参数是负数，就从尾部开始倒数计算，第二个参数是负数自动转为0，因此返回空字符串
 		'JavaScript'.substr(-6); // "Script"
 		'JavaScript'.substr(4, -1); // ""
-* split(delimiter, size), 按照指定规则分隔字符串，返回分割后的子字符串组成的数组，参数都可选
+* str.split(delimiter, size), 按照指定规则分隔字符串，返回分割后的子字符串组成的数组，参数都可选
 
 		'a|b|c'.split('|'); // ["a", "b", "c"]
 		'a|b|c'.split(''); // ["a", "|", "b", "|", "c"]
@@ -54,19 +61,29 @@
 		'a|b|c'.split('|', 0); // []
 		'a|b|c'.split('|', 1); // ["a"]
 		'a|b|c'.split('|', 4); // ["a", "b", "c"]
-* concat(), 连接字符串，返回一个新字符串，不改变原字符串
+* str.concat(), 连接字符串，返回一个新字符串，不改变原字符串
 
 		s1.concat(s2, s3, ..., sn)
 		与加法运算符的区别是，都会将参数转为字符串再连接
 		而加法运算时当前两个运算子都是数值时，不会转换类型，而是进行数学计算(1 + 2 + ‘3’; // 33)
-* toUpperCase()/toLowerCase(), 转大写/转小写，返回新字符串，不改变原字符串
+* str.toUpperCase()/toLowerCase(), 转大写/转小写，返回新字符串，不改变原字符串
 
 		'JavaScript'.toUpperCase();
 		'JavaScript'.toLowerCase();
 	
-* trim(), 去掉两端的空格，返回新字符串，不改变原字符串
+* str.trim(), 去掉两端的空格，返回新字符串，不改变原字符串
 
 		' JavaScript \t'.trim(); // "JavaScript"
+* str.repeat(n), ES6, 返回新字符串，表示将原字符串重复n次
+
+		n是浮点数就取整
+		负数或者Infinity就报错
+		-1到0间的小数除外，因为会先向下取整，(-1, 0)取整后是0
+		NaN等同于0，不能转为数字的字符串也等同于0
+		'x'.repeat(0); // ""
+		'x'.repeat('cc'); // ""
+		'x'.repeat(NaN); // ""
+
 # 数组
 *  length属性获取元素数量
 * Array.isArray(arr), 静态方法，判断是否为数组
@@ -176,6 +193,17 @@
 
 		不能用于搜索NaN
 		底层用严格相等运算符===进行比较
+
+## ES6数组扩展
+* Array.from(obj), 将类似数组的对象和可遍历对象(如ES6新增的数据结构Set和Map)转为真正的数组
+* arr.keys(), 对键名的遍历
+* arr.values(), 对键值的遍历
+* arr.entries(), 对键值对的遍历
+* arr.includes(item, startindex), 返回布尔值，数组是否包含给定的元素
+
+		startindex可选，表示开始搜索的位置
+		startindex为负数表示倒数的位置，大于数组长度就从0开始
+
 # JSON
 * JSON.parse(string, function), JSON字符串转对象
 

@@ -8,6 +8,17 @@ forEach，缺点: 不能中断
 	arr.forEach(element => {});
 	arr.forEach((element, index) => {})
 	arr.forEach((element, index, arr) => {})
+## 字符串
+for...of
+
+	for (let str of strs) {}
+# 存在
+## 数组
+## 字符串
+	strs.indexOf(str); // 不建议使用，1.不够语义化，要和-1比较 2.内部用===比较，导致误判NaN
+	strs.includes(str); // ES6, 推荐使用，没有indexOf的问题
+	strs.startsWith(str); // ES6
+	strs.endsWith(str); // ES6
 # 拷贝
 ## 数组
 深拷贝，返回新数组，不影响原数组
@@ -15,36 +26,49 @@ forEach，缺点: 不能中断
 	arr.concat();
 	arr.slice();
 	arr1 = [...arr]; // 利用扩展运算符
+# 获取
+## 数组
+最后一位，arr.slice(-1);
+# 去重
+## 数组
+1. Array.from(new Set(arr)); // ES6, 不能去掉[]和{}
+2. for循环嵌套，双指针思想，不能去掉NaN和{}，0, true, null和[]直接消失
+
+		const length = arr.length;
+		for (let i = 0; i < length; i++) {
+			for (let j = i + 1; j < length; j++) {
+				if (arr[i] == arr[j]) {
+					arr.splice(j, 1);
+					j--;
+				}
+			}
+		}
+3. indexOf，建一个空数组，遍历判断空数组是否存在对应元素，不存在就push，不能去掉NaN, []和{}
+4. sort，先排序，再建一个数组，放入第一个元素，遍历相邻两个数值，两者不同就push，不能去掉NaN, []和{}
+5. includes，建一个空数组，遍历判断空数组是否存在对应元素，不存在就push，不能去掉[]和{}
+6. filter加indeOf, 元素在原始数组中第一次出现的索引是否等于当前索引值，不能去掉[]和{}，NaN直接消失
+
+		return arr.filter(function(item, index, arr) {
+    			return arr.indexOf(item, 0) === index;
+    		});	 
+7. 对象的hasOwnProperty加数组的filter，完美去重
+
+		var obj = {};
+		return arr.filter(function(item, index, arr) {
+    			return obj.hasOwnProperty(typeof item + item) ? false : (				obj[typeof item + item] = true)
+		})
+
 # 合并
 ## 数组
 返回新数组，当元素是原始类型时不影响原数组，若是复合类型(如对象)，就会影响原数组
 
 	arr.concat(arr1, arr2);
 	[...arr, ...arr1, ...arr2]; // 利用扩展运算符
-# 获取
-## 数组
-最后一位，arr.slice(-1);
-# 去重
-## 数组
-1. Array.from(new Set(arr)); // ES6
-2. for循环嵌套，双指针思想，NaN和
-
-		const length = arr.length;
-		for (let i = 0; i < length; i++) {
-			for (let j = i + 1; j < length; j++) {
-				if (arr[i] === arr[j]) {
-					arr.splice(j, 1);
-					j--;
-				}
-			}
-		}
-3. indexOf，建一个空数组，遍历判断是否存在，不存在就push
-4. sort，先排序，再建一个数组，遍历前后两个数值，不同就push
 # 注意点
 ## 数组
 1. length属性，不过滤空位，用delete命令删除了元素后length的值还是不变，并且还可以读取元素(undefined)
 2. 数组中元素是空位，和元素是undefined是不同的。空位，用forEach, for...in, Object.keys进行遍历，都会被跳过；undefined，不会跳过
-## 字符串
+
 # 转换
 自动转换具有不确定性，不易排错，建议预期为布尔，数值，字符串时，全部使用显示转换（Boolean(), Number(), String()）
 # 运算
