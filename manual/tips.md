@@ -1,13 +1,24 @@
 # 遍历
 ## 对象
-Object.keys(obj).forEach(o => {});
-Object.keys(obj).forEach((value, key, o) => {});
+ES6新增，返回数组
+
+	Object.keys(obj).forEach(key => {});
+	Object.values(obj).forEach(value => {});
+	Object.entries(obj).forEach((key, value) => {});
 ## 数组
 forEach，缺点: 不能中断
 
 	arr.forEach(element => {});
 	arr.forEach((element, index) => {})
 	arr.forEach((element, index, arr) => {})
+ES6新增
+
+	arr.keys(), 键名遍历
+		for (let index of arr.keys())
+	arr.values(), 键值遍历
+		for (let item of arr.values())
+	arr.entries(), 键值对遍历
+		for (let [index, item] of arr.entries())
 ## 字符串
 for...of
 
