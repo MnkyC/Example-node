@@ -31,6 +31,13 @@ for...of
 	strs.startsWith(str); // ES6
 	strs.endsWith(str); // ES6
 # 拷贝
+## 对象
+深拷贝，返回新对象，不影响原对象
+
+	const obj1 = Object.assign(
+		Object.create(Object.getPrototypeOf(obj)),
+		obj
+	);
 ## 数组
 深拷贝，返回新数组，不影响原数组
 

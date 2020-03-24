@@ -170,6 +170,8 @@
 		[1, , 2].map(function (item) { return 'a';}) // ["a", , "a"]
 * arr.forEach(function (value) {}), 不返回值，只用来操作数据，将数组所有元素依次执行参数函数，无法中断执行
 
+	**注意！若要操作第二个参数，必须用fucntion形式，不能用箭头函数**
+
 		arr.forEach(element => { console.log(element + 2)});
 		第二个参数指向回调函数内部的this
 		let arr = [];
