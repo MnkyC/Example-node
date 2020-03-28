@@ -2,6 +2,7 @@
 * Number.isInteger(), ES6, 判断是否为整数，精度要求高的不建议使用，因为超过精度后就会误判
 
 		JavaScript中整数和浮点数都是一样的存储方式，所以10和10.0是同一个值，都是整数
+
 # 字符串
 * str.length属性获取长度
 * str.indexOf(searchvalue, fromindex), 确定一个字符串在另一个字符串中第一次出现的位置，返回匹配开始的位置，不匹配返回-1
@@ -207,28 +208,43 @@
 		startindex为负数表示倒数的位置，大于数组长度就从0开始
 
 # JSON
+## 规定
+**JSON对值的类型和格式有严格规定**
+
+1. 复合类型的值只能是数组或对象
+2. 原始类型的值只有四种(字符串，十进制的数值，布尔值，null)，不能使用NaN, Infinity, -Infinity和undefined
+3. 字符串必须用双引号表示，单引号不行
+4. 对象的键名必须在双引号中
+5. 数组或对象最后一个成员后不能加逗号
+6. 空数组和空对象是合法的JSON值
+
+## API
+* JSON.stringify(obj, arr或function), 转JSON字符串
+
+	对象属性是undefined，函数或xml对象，会被过滤
+	数组属性是undefined，函数或xml对象，会转为null
+	对象中的属性若定义了enumerable: false，会被忽略
+
+		第二个参数可选，是指定需要转成JSON字符串的对象属性，类似白名单，数组形式传入，只对对象属性有效，数组无效
+		let obj = {"p1": "1", "p2": "2", "p3": "3"};
+		let keys = ['p1', "p2"];
+		JSON.stringify(obj, keys); // "{"p1": "1", "p2": "2"}"
+		第二个参数也可以是函数，可以更改stringify的返回值
+		function func(key, value) { if (typeof value == "number") { value += 10; } return value; }
+		JSON.stringify({a: 1, b: 2}, func); // {"a": 11, "b": 12}
+		若参数对象有自定义的toJSON方法，就是用该函数的返回值作为参数
 * JSON.parse(string, function), JSON字符串转对象
 
 		JSON.parse('null'/'{}'/'true'/'"foo"'); // null {} true "foo"
 		JSON.parse('[1, 5, "foo"]'); // [1 ,5, "foo"]
 		let o = JSON.parse('{"name": "foo"}');
 		o.name; // foo
-		不合法的JSON格式，会报错，如不能用单引号
+		字符串是不合法的JSON格式，会报错
 		JSON.parse("'string'"); // 报错
 		为了防止报错，可以写在try...catch中
 		try { JSON.parse(); } catch(e) { }
 		第二个参数是参数函数
 		function func(key, value) { if (key == "a") { return value + 10; } return value; }
-		JSON.parse('{"a": 1, "b": 2}', func); // {"a": 11, "b": 2}
-* JSON.stringify(obj, arr或function), 转JSON字符串，字符串必须用双引号，对象的键名必须放在双引号中，数组或对象最后一个成员的后面不能加逗号
-
-		第二个参数可选，是指定需要转成JSON字符串的对象属性，类似白名单，只对对象有效，数组无效
-		let obj = {"p1": "1", "p2": "2", "p3": "3"};
-		let keys = ['p1', "p2"];
-		JSON.stringify(obj, keys); // "{"p1": "1", "p2": "2"}"
-		第二个参数也可以是函数，可以更改stringify的返回值
-		function func(key, value) { if (typeof value == "number") { value += 10; } return value; }
-		JSON.parse('{"a": 1, "b": 2}', func); // {"a": 11, "b": 12}
-		若参数对象有自定义的toJSON方法，就是用该函数的返回值作为参数
+		JSON.parse('{"a": 1, "b": 2}', func); // {a: 11, b: 12}
 
 	
