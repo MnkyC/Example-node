@@ -5,6 +5,14 @@ ES6新增，返回数组
 	Object.keys(obj).forEach(key => {});
 	Object.values(obj).forEach(value => {});
 	Object.entries(obj).forEach((key, value) => {});
+	
+**注意！！！Object.keys不保证属性的顺序**
+
+	首先遍历所有数值键，按照升序排列
+	其次遍历所有字符串键，按照加入时间升序排列
+	最后遍历所有Symbol键，按照加入时间升序排列
+	
+**建议！用数组存储Object.keys中的属性，然后用自定义的排序算法对数组进行sort，最后遍历数组来获取对应的对象属性进行处理**
 ## 数组
 forEach，缺点: 不能中断
 
@@ -82,10 +90,14 @@ for...of
 
 	arr.concat(arr1, arr2);
 	[...arr, ...arr1, ...arr2]; // 利用扩展运算符
+
 # 注意点
 ## 数组
 1. length属性，不过滤空位，用delete命令删除了元素后length的值还是不变，并且还可以读取元素(undefined)
 2. 数组中元素是空位，和元素是undefined是不同的。空位，用forEach, for...in, Object.keys进行遍历，都会被跳过；undefined，不会跳过
+3. **数组sort方法默认不是升序的，需要自己写排序算法**
+
+		arr.sort((a, b) => { return a - b; })
 
 # 转换
 自动转换具有不确定性，不易排错，建议预期为布尔，数值，字符串时，全部使用显示转换（Boolean(), Number(), String()）
