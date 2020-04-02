@@ -1,3 +1,35 @@
+# 数学
+Math，JS的原生对象，提供数学功能
+
+* Math.PI, 圆周率
+* Math.abs(value), 绝对值
+* Math.ceil(value), 向上取整
+* Math.floor(value), 向下取整
+* Math.round(value), 四舍五入，等同于Math.floor(value + 0.5)
+
+		// 主要注意0.5的处理
+		Math.round(0.5); // 1
+		Math.round(-1.5); // -1
+* Math.pow(i, j), i为底数，j为幂的指数，等同于 i ** j
+* Math.random(), [0, 1)区间的**伪随机数**
+
+		// 任意范围随机数
+		min + Math.random() * (max - min);
+		// 任意范围随机整数
+		min + Math.floor(Math.random() * (max - min));
+		// 任意长度随机字符
+		let str = "ABCDEFG...XYZabc...xyz01..789-_...";
+		for (let i = 0; i < length; i++) {
+			const rand = Math.floor(Math.random() * str.length);
+			str = str.slice(rand, rand + 1);
+		}
+* Math.sin(value),  正弦，value为弧度值
+* Math.cos(value), 余弦
+* Math.tan(value) , 正切，
+* Math.asin(value), 反正弦，返回弧度值
+* Math.acos(value), 反余弦
+* Math.atan(value), 反正切
+
 # 数值
 * Number.isInteger(), ES6, 判断是否为整数，精度要求高的不建议使用，因为超过精度后就会误判
 
